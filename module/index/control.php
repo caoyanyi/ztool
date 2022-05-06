@@ -25,12 +25,19 @@ class index extends control
     /**
      * The index page.
      *
+     * @param  array $params
      * @access public
      * @return void
      */
-    public function index()
+    public function index($params)
     {
-        $this->view->title = $this->lang->welcome;
-        $this->display();
+        foreach($params as $key => $param)
+        {
+            if($param == '-h' or $param == '--help')
+            {
+                echo sprintf($this->lang->index->help, '禅道');
+                return;
+            }
+        }
     }
 }

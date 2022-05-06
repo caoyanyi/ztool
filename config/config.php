@@ -44,7 +44,7 @@ $config->devicePrefix['mhtml'] = 'm.';
 /* 默认值设置。Default settings. */
 $config->default = new stdclass();
 $config->default->view   = 'html';        //默认视图。 Default view.
-$config->default->lang   = 'en';          //默认语言。 Default language.
+$config->default->lang   = 'zh-cn';          //默认语言。 Default language.
 $config->default->theme  = 'default';     //默认主题。 Default theme.
 $config->default->module = 'index';       //默认模块。 Default module.
 $config->default->method = 'index';       //默认方法。 Default method.
@@ -87,7 +87,7 @@ $config->domainPostfix .= "|international|house|coffee|florist|rich|ceo|camp|edu
 /* 系统框架配置。Framework settings. */
 $config->framework = new stdclass();
 $config->framework->autoConnectDB  = true;  // 是否自动连接数据库。              Whether auto connect database or not.
-$config->framework->multiLanguage  = false; // 是否启用多语言功能。              Whether enable multi lanuage or not.
+$config->framework->multiLanguage  = true; // 是否启用多语言功能。              Whether enable multi lanuage or not.
 $config->framework->multiTheme     = false; // 是否启用多风格功能。              Whether enable multi theme or not.
 $config->framework->multiSite      = false; // 是否启用多站点模式。              Whether enable multi site mode or not.
 $config->framework->extensionLevel = 0;     // 0=>无扩展,1=>公共扩展,2=>站点扩展 0=>no extension, 1=> common extension, 2=> every site has it's extension.

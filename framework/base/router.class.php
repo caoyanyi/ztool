@@ -1004,7 +1004,7 @@ class baseRouter
     {
         if(!empty($argv) and count($argv) > 1)
         {
-            $this->setModuleName($argv[1]);
+            $this->setModuleName(substr($argv[1], 0, 1) == '-' ? $this->config->default->module : $argv[1]);
             $this->setMethodName($this->config->default->method);
             $this->setControlFile();
 
@@ -1688,25 +1688,39 @@ class baseRouter
             $defaultParams[$name] = $default;
         }
 
-        /**
-         * 根据PATH_INFO或者GET方式设置请求的参数。
-         * Set params according PATH_INFO or GET.
-         */
-        if($this->config->requestType != 'GET')
+        if('cli' === PHP_SAPI)
         {
-            $this->setParamsByPathInfo($defaultParams);
+            $params   = array();
+            $paramKey = '';
+            foreach($this->args as $key => $val)
+            {
+                if($key == 0) continue;
+                $params[] = $val;
+            }
+
+            $this->params = array('params' => $params);
         }
         else
         {
-            $this->setParamsByGET($defaultParams);
-        }
+            /**
+             * 根据PATH_INFO或者GET方式设置请求的参数。
+             * Set params according PATH_INFO or GET.
+             */
+            if($this->config->requestType != 'GET')
+            {
+                $this->setParamsByPathInfo($defaultParams);
+            }
+            else
+            {
+                $this->setParamsByGET($defaultParams);
+            }
 
-        if($this->config->framework->filterParam == 2)
-        {
-            $_GET     = validater::filterParam($_GET, 'get');
-            $_COOKIE  = validater::filterParam($_COOKIE, 'cookie');
+            if($this->config->framework->filterParam == 2)
+            {
+                $_GET     = validater::filterParam($_GET, 'get');
+                $_COOKIE  = validater::filterParam($_COOKIE, 'cookie');
+            }
         }
-
         /* 调用该方法   Call the method. */
         call_user_func_array(array($module, $methodName), $this->params);
         return $module;
