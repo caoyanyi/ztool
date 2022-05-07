@@ -1004,8 +1004,10 @@ class baseRouter
     {
         if(!empty($argv) and count($argv) > 1)
         {
-            $this->setModuleName(substr($argv[1], 0, 1) == '-' ? $this->config->default->module : $argv[1]);
-            $this->setMethodName($this->config->default->method);
+            $module = (empty($argv[1]) or substr($argv[1], 0, 1) == '-') ? $this->config->default->module : $argv[1];
+            $method = (empty($argv[2]) or substr($argv[2], 0, 1) == '-') ? $this->config->default->method : $argv[2];
+            $this->setModuleName($module);
+            $this->setMethodName($method);
             $this->setControlFile();
 
             $this->args = $argv;
@@ -1695,6 +1697,7 @@ class baseRouter
             foreach($this->args as $key => $val)
             {
                 if($key == 0) continue;
+                if(in_array($key, array(1, 2)) and substr($val, 0, 1) != '-') continue;
                 $params[] = $val;
             }
 
